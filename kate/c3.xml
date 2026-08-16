@@ -162,6 +162,7 @@
       <item>$vatype</item>
     </list>
     <contexts>
+      <!-- so this is kinda like a main function -->
       <context attribute="Normal Text" lineEndContext="#stay" name="Normal">
         <DetectSpaces/>
         <!-- comments -->
@@ -192,6 +193,7 @@
         <DetectChar attribute="String" context="DoubleQuoteString" char="&quot;"/>
         <DetectIdentifier/>
       </context>
+      <!-- and these are other functions that you "call" in the "main" "function" -->
       <context attribute="Comment" lineEndContext="#pop" name="Comment"/>
       <context attribute="Comment" lineEndContext="#stay" name="MultiLineComment">
         <DetectSpaces/>
@@ -212,6 +214,8 @@
       <context attribute="Normal Text" lineEndContext="#pop" name="Function">
         <DetectSpaces/>
         <keyword attribute="Data Type" context="FindFunctionName" String="types"/>
+        <RegExpr String="(?&lt;=::)[A-Za-z0-9_]+" attribute="Data Type" context="#stay"/>
+        <RegExpr String="[A-Za-z0-9_]+(?=::)" attribute="Standard Suffix" context="#stay"/>
         <RegExpr attribute="Normal Text" context="#stay" String="[a-zA-Z]+:{2}"/>
         <RegExpr attribute="Data Type" context="FindFunctionName" String="[A-Z][A-Za-z0-9]+"/>
       </context>

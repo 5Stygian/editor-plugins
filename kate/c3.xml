@@ -1,33 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE language>
-<language name="C3" section="Sources" version="1" kateversion="5.79" indenter="cstyle" extensions="*.c3;*.c3i" mimetype="text/x-c3src" priority="1" author="Waqar Ahmed (waqar.17a@gmail.com)" license="MIT">
+<language name="C3" section="Sources" version="2" kateversion="5.79" indenter="cstyle" extensions="*.c3;*.c3i" mimetype="text/x-c3src" priority="1" author="Waqar Ahmed (waqar.17a@gmail.com)" license="MIT">
   <highlighting>
     <list name="fn">
       <item>fn</item>
     </list>
     <list name="controlflow">
-      <item>switch</item>
-      <item>try</item>
-      <item>while</item>
-      <item>return</item>
-      <item>if</item>
+      <item>break</item>
       <item>catch</item>
       <item>continue</item>
-      <item>break</item>
       <item>do</item>
       <item>else</item>
       <item>for</item>
       <item>foreach</item>
       <item>foreach_r</item>
+      <item>if</item>
+      <item>return</item>
+      <item>switch</item>
+      <item>try</item>
+      <item>while</item>
     </list>
     <list name="keywords">
+      <item>alias</item>
       <item>anyfault</item>
-      <item>typeid</item>
-      <item>assert</item>
       <item>asm</item>
+      <item>assert</item>
+      <item>attrdef</item>
       <item>bitstruct</item>
       <item>case</item>
       <item>const</item>
+      <item>constdef</item>
       <item>def</item>
       <item>default</item>
       <item>defer</item>
@@ -36,16 +38,19 @@
       <item>extern</item>
       <item>false</item>
       <item>fault</item>
-      <item>tlocal</item>
-      <item>inline</item>
       <item>import</item>
+      <item>inline</item>
+      <item>interface</item>
       <item>macro</item>
       <item>module</item>
       <item>nextcase</item>
       <item>null</item>
       <item>static</item>
-      <item>true</item>
       <item>struct</item>
+      <item>this</item>
+      <item>tlocal</item>
+      <item>true</item>
+      <item>typeid</item>
       <item>union</item>
     </list>
     <list name="attributes">
@@ -79,6 +84,8 @@
       <item>@public</item>
       <item>@pure</item>
       <item>@reflect</item>
+      <item>@require</item>
+      <item>@safeinfer</item>
       <item>@section</item>
       <item>@stdcall</item>
       <item>@test</item>
@@ -90,15 +97,17 @@
       <item>@winmain</item>
     </list>
     <list name="types">
-      <item>var</item>
-      <item>void</item>
+      <item>String</item>
+      <item>ZString</item>
+      <item>any</item>
       <item>bool</item>
       <item>char</item>
       <item>double</item>
-      <item>float</item>
+      <item>float128</item>
       <item>float16</item>
-      <item>int128</item>
+      <item>float</item>
       <item>ichar</item>
+      <item>int128</item>
       <item>int</item>
       <item>iptr</item>
       <item>isz</item>
@@ -107,13 +116,12 @@
       <item>uint128</item>
       <item>uint</item>
       <item>ulong</item>
+      <item>untypedlist</item>
       <item>uptr</item>
       <item>ushort</item>
       <item>usz</item>
-      <item>float128</item>
-      <item>any</item>
-      <item>String</item>
-      <item>ZString</item>
+      <item>var</item>
+      <item>void</item>
     </list>
     <list name="preprocessor">
       <item>$alignof</item>
@@ -122,16 +130,16 @@
       <item>$default</item>
       <item>$defined</item>
       <item>$echo</item>
-      <item>$embed</item>
-      <item>$exec</item>
       <item>$else</item>
+      <item>$embed</item>
       <item>$endfor</item>
       <item>$endforeach</item>
       <item>$endif</item>
       <item>$endswitch</item>
+      <item>$error</item>
       <item>$eval</item>
       <item>$evaltype</item>
-      <item>$error</item>
+      <item>$exec</item>
       <item>$extnameof</item>
       <item>$for</item>
       <item>$foreach</item>
@@ -145,13 +153,13 @@
       <item>$switch</item>
       <item>$typefrom</item>
       <item>$typeof</item>
-      <item>$vacount</item>
-      <item>$vatype</item>
-      <item>$vaconst</item>
-      <item>$varef</item>
       <item>$vaarg</item>
+      <item>$vaconst</item>
+      <item>$vacount</item>
       <item>$vaexpr</item>
+      <item>$varef</item>
       <item>$vasplat</item>
+      <item>$vatype</item>
     </list>
     <contexts>
       <context attribute="Normal Text" lineEndContext="#stay" name="Normal">
@@ -168,6 +176,13 @@
         <keyword attribute="Data Type" context="#stay" String="types"/>
         <keyword attribute="Preprocessor" context="#stay" String="preprocessor"/>
         <keyword attribute="Attribute" context="#stay" String="attributes"/>
+        <!-- methods -->
+        <DetectChar char="." attribute="Symbol" context="Dot" lookAhead="1"/>
+        <!-- module -->
+        <IncludeRules context="ModuleName"/>
+        <IncludeRules context="ModuleMember"/>
+        <!-- user defined types -->
+        <RegExpr String="[A-Z_][A-Za-z0-9_]+" attribute="Data Type"/>
         <!-- numbers -->
         <Int attribute="Decimal" context="#stay"/>
         <Float attribute="Float" context="#stay"/>
@@ -190,6 +205,9 @@
         <RegExpr attribute="String Char" context="#pop" String="\\([nrt'&quot;\\]|x[0-9a-fA-F]{2}|u\{[0-9a-fA-F]+\})"/>
         <RegExpr attribute="Error" context="#pop" String="\\(x[0-9a-fA-F]?|u\{[0-9a-fA-F]{0,8}\}?)?"/>
       </context>
+      <context name="FindFloat" attribute="Normal Text">
+        <RegExpr String="(\b(?:[0-9]++(_++[0-9]++)*+)(\.(((?:[0-9]++(_++[0-9]++)*+)(?:[eE][-+]?(?:[0-9]++(_++[0-9]++)*+))?+|(?:[eE][-+]?(?:[0-9]++(_++[0-9]++)*+)))[fFdD]?\b|[fFdD]\b)?|(?:[eE][-+]?(?:[0-9]++(_++[0-9]++)*+))[fFdD]?\b|[fFdD]\b)|\.(?:[0-9]++(_++[0-9]++)*+)(?:[eE][-+]?(?:[0-9]++(_++[0-9]++)*+))?[fFdD]?\b)|\b0[xX]((?:[0-9a-fA-F]++(_++[0-9a-fA-F]++)*+)\.?+(?:[0-9a-fA-F]++(_++[0-9a-fA-F]++)*+)?+|\.(?:[0-9a-fA-F]++(_++[0-9a-fA-F]++)*+)?)[pP][-+]?(?:[0-9]++(_++[0-9]++)*+)[fFdD]?\b" attribute="Float" context="#pop"/>
+      </context>
       <!-- func highlighting -->
       <context attribute="Normal Text" lineEndContext="#pop" name="Function">
         <DetectSpaces/>
@@ -200,6 +218,23 @@
       <context attribute="Function" lineEndContext="#pop#pop" name="FindFunctionName">
         <DetectSpaces/>
         <AnyChar String="(&lt;" attribute="Normal Text" context="#pop#pop" lookAhead="true"/>
+      </context>
+      <!-- method highlighting -->
+      <context name="Dot" attribute="Normal Text">
+        <StringDetect String="..." attribute="Keyword" context="#pop"/>
+        <IncludeRules context="FindFloat"/>
+        <DetectChar char="." attribute="Symbol" context="#pop!Member"/>
+      </context>
+      <context name="Member" attribute="Normal Text" fallthroughContext="#pop">
+        <DetectSpaces attribute="Normal Text"/>
+        <DetectIdentifier attribute="Function" context="#pop"/>
+      </context>
+      <!-- module highlighting -->
+      <context name="ModuleName" attribute="Normal Text">
+        <RegExpr String="[A-Za-z0-9_]+(?=::)" attribute="Standard Suffix" context="#pop"/>
+      </context>
+      <context name="ModuleMember" attribute="Normal Text">
+        <RegExpr String="(?&lt;=::)[A-Za-z0-9_]+" attribute="Data Type" context="#pop"/>
       </context>
     </contexts>
     <itemDatas>

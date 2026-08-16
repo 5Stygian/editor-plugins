@@ -47,7 +47,6 @@
       <item>null</item>
       <item>static</item>
       <item>struct</item>
-      <item>this</item>
       <item>tlocal</item>
       <item>true</item>
       <item>typeid</item>
@@ -55,45 +54,61 @@
     </list>
     <list name="attributes">
       <item>@align</item>
+      <item>@allow_deprecated</item>
       <item>@benchmark</item>
       <item>@bigendian</item>
       <item>@builtin</item>
-      <item>@cdecl</item>
+      <item>@callconv</item>
+      <item>@cname</item>
+      <item>@compact</item>
+      <item>@const</item>
+      <item>@constinit</item>
       <item>@deprecated</item>
       <item>@dynamic</item>
       <item>@export</item>
-      <item>@extern</item>
-      <item>@extname</item>
+      <item>@finalizer</item>
+      <item>@format</item>
+      <item>@if</item>
       <item>@inline</item>
-      <item>@interface</item>
+      <item>@init</item>
+      <item>@jump</item>
+      <item>@link</item>
       <item>@littleendian</item>
       <item>@local</item>
       <item>@maydiscard</item>
+      <item>@mustinit</item>
       <item>@naked</item>
+      <item>@noalias</item>
       <item>@nodiscard</item>
       <item>@noinit</item>
       <item>@noinline</item>
+      <item>@nopadding</item>
+      <item>@norecurse</item>
       <item>@noreturn</item>
+      <item>@nosanitize</item>
       <item>@nostrip</item>
       <item>@obfuscate</item>
       <item>@operator</item>
+      <item>@operator_r</item>
+      <item>@operator_s</item>
+      <item>@optional</item>
       <item>@overlap</item>
       <item>@packed</item>
-      <item>@priority</item>
       <item>@private</item>
       <item>@public</item>
       <item>@pure</item>
       <item>@reflect</item>
-      <item>@require</item>
       <item>@safeinfer</item>
+      <item>@safemacro</item>
+      <item>@simd</item>
       <item>@section</item>
-      <item>@stdcall</item>
+      <item>@tag</item>
       <item>@test</item>
       <item>@unused</item>
       <item>@used</item>
-      <item>@veccall</item>
       <item>@wasm</item>
       <item>@weak</item>
+      <item>@weaklink</item>
       <item>@winmain</item>
     </list>
     <list name="types">
@@ -124,8 +139,150 @@
       <item>void</item>
     </list>
     <list name="preprocessor">
-      <item>$alignof</item>
+      <item>$$BENCHMARK_FNS</item>
+      <item>$$BENCHMARK_NAMES</item>
+      <item>$$DATE</item>
+      <item>$$FILE</item>
+      <item>$$FILEPATH</item>
+      <item>$$FUNC</item>
+      <item>$$FUNCTION</item>
+      <item>$$LINE</item>
+      <item>$$LINE_RAW</item>
+      <item>$$MODULE</item>
+      <item>$$TEST_FNS</item>
+      <item>$$TEST_NAMES</item>
+      <item>$$TIME</item>
+      <item>$$abs</item>
+      <item>$$acos</item>
+      <item>$$add</item>
+      <item>$$any_make</item>
+      <item>$$asin</item>
+      <item>$$atan</item>
+      <item>$$atomic_fetch_add</item>
+      <item>$$atomic_fetch_and</item>
+      <item>$$atomic_fetch_dec_wrap</item>
+      <item>$$atomic_fetch_exchange</item>
+      <item>$$atomic_fetch_inc_wrap</item>
+      <item>$$atomic_fetch_max</item>
+      <item>$$atomic_fetch_min</item>
+      <item>$$atomic_fetch_nand</item>
+      <item>$$atomic_fetch_or</item>
+      <item>$$atomic_fetch_sub</item>
+      <item>$$atomic_fetch_xor</item>
+      <item>$$atomic_load</item>
+      <item>$$atomic_store</item>
+      <item>$$bitreverse</item>
+      <item>$$breakpoint</item>
+      <item>$$bswap</item>
+      <item>$$ceil</item>
+      <item>$$clz</item>
+      <item>$$compare_exchange</item>
+      <item>$$copysign</item>
+      <item>$$cos</item>
+      <item>$$cosh</item>
+      <item>$$ctz</item>
+      <item>$$div</item>
+      <item>$$exp10</item>
+      <item>$$exp2</item>
+      <item>$$exp</item>
+      <item>$$expect</item>
+      <item>$$expect_with_probability</item>
+      <item>$$fence</item>
+      <item>$$floor</item>
+      <item>$$fma</item>
+      <item>$$fmuladd</item>
+      <item>$$frameaddress</item>
+      <item>$$fshl</item>
+      <item>$$fshr</item>
+      <item>$$gather</item>
+      <item>$$get_rounding_mode</item>
+      <item>$$int_to_mask</item>
+      <item>$$log10</item>
+      <item>$$log2</item>
+      <item>$$log</item>
+      <item>$$mask_to_int</item>
+      <item>$$masked_load</item>
+      <item>$$masked_store</item>
+      <item>$$matrix_mul</item>
+      <item>$$matrix_transpose</item>
+      <item>$$max</item>
+      <item>$$memcpy</item>
+      <item>$$memcpy_inline</item>
+      <item>$$memmove</item>
+      <item>$$memset</item>
+      <item>$$memset_inline</item>
+      <item>$$min</item>
+      <item>$$mod</item>
+      <item>$$mul</item>
+      <item>$$nearbyint</item>
+      <item>$$neg</item>
+      <item>$$overflow_add</item>
+      <item>$$overflow_mul</item>
+      <item>$$overflow_sub</item>
+      <item>$$popcount</item>
+      <item>$$pow</item>
+      <item>$$pow_int</item>
+      <item>$$prefetch</item>
+      <item>$$reduce_add</item>
+      <item>$$reduce_and</item>
+      <item>$$reduce_fadd</item>
+      <item>$$reduce_fmul</item>
+      <item>$$reduce_max</item>
+      <item>$$reduce_min</item>
+      <item>$$reduce_mul</item>
+      <item>$$reduce_or</item>
+      <item>$$reduce_xor</item>
+      <item>$$returnaddress</item>
+      <item>$$reverse</item>
+      <item>$$rint</item>
+      <item>$$rnd</item>
+      <item>$$round</item>
+      <item>$$roundeven</item>
+      <item>$$sat_add</item>
+      <item>$$sat_mul</item>
+      <item>$$sat_shl</item>
+      <item>$$sat_sub</item>
+      <item>$$scatter</item>
+      <item>$$select</item>
+      <item>$$set_rounding_mode</item>
+      <item>$$sin</item>
+      <item>$$sinh</item>
+      <item>$$sprintf</item>
+      <item>$$sqrt</item>
+      <item>$$str_find</item>
+      <item>$$str_hash</item>
+      <item>$$str_lower</item>
+      <item>$$str_pascalcase</item>
+      <item>$$str_replace</item>
+      <item>$$str_snakecase</item>
+      <item>$$str_upper</item>
+      <item>$$sub</item>
+      <item>$$swizzle2</item>
+      <item>$$swizzle</item>
+      <item>$$syscall</item>
+      <item>$$sysclock</item>
+      <item>$$tan</item>
+      <item>$$tanh</item>
+      <item>$$trap</item>
+      <item>$$trunc</item>
+      <item>$$unaligned_load</item>
+      <item>$$unaligned_store</item>
+      <item>$$unreachable</item>
+      <item>$$veccompeq</item>
+      <item>$$veccompge</item>
+      <item>$$veccompgt</item>
+      <item>$$veccomple</item>
+      <item>$$veccomplt</item>
+      <item>$$veccompne</item>
+      <item>$$volatile_load</item>
+      <item>$$volatile_store</item>
+      <item>$$wasm_memory_grow</item>
+      <item>$$wasm_memory_size</item>
+      <item>$$wstr16</item>
+      <item>$$wstr32</item>
       <item>$assert</item>
+      <item>$Typefrom</item>
+      <item>$Typeof</item>
       <item>$case</item>
       <item>$default</item>
       <item>$defined</item>
@@ -138,31 +295,19 @@
       <item>$endswitch</item>
       <item>$error</item>
       <item>$eval</item>
-      <item>$evaltype</item>
       <item>$exec</item>
-      <item>$extnameof</item>
+      <item>$expand</item>
+      <item>$feature</item>
       <item>$for</item>
       <item>$foreach</item>
       <item>$if</item>
       <item>$include</item>
-      <item>$nameof</item>
-      <item>$offsetof</item>
-      <item>$qnameof</item>
-      <item>$sizeof</item>
+      <item>$reflect</item>
       <item>$stringify</item>
       <item>$switch</item>
-      <item>$typefrom</item>
-      <item>$typeof</item>
       <item>$vaarg</item>
-      <item>$vaconst</item>
-      <item>$vacount</item>
-      <item>$vaexpr</item>
-      <item>$varef</item>
-      <item>$vasplat</item>
-      <item>$vatype</item>
     </list>
     <contexts>
-      <!-- so this is kinda like a main function -->
       <context attribute="Normal Text" lineEndContext="#stay" name="Normal">
         <DetectSpaces/>
         <!-- comments -->
@@ -193,7 +338,6 @@
         <DetectChar attribute="String" context="DoubleQuoteString" char="&quot;"/>
         <DetectIdentifier/>
       </context>
-      <!-- and these are other functions that you "call" in the "main" "function" -->
       <context attribute="Comment" lineEndContext="#pop" name="Comment"/>
       <context attribute="Comment" lineEndContext="#stay" name="MultiLineComment">
         <DetectSpaces/>

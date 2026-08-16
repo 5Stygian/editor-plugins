@@ -179,8 +179,8 @@
         <!-- methods -->
         <DetectChar char="." attribute="Symbol" context="Dot" lookAhead="1"/>
         <!-- module -->
-        <IncludeRules context="ModuleName"/>
         <IncludeRules context="ModuleMember"/>
+        <IncludeRules context="ModuleName"/>
         <!-- user defined types -->
         <RegExpr String="[A-Z_][A-Za-z0-9_]+" attribute="Data Type"/>
         <!-- numbers -->

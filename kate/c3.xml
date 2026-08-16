@@ -359,7 +359,7 @@
       <!-- TODO:
         The return type in the following function is highlighted incorrectly:
 
-          fn mod::member1::member2::member3 do_thing() {}
+          fn mod::member1::member2::member3 do_thing() @private {}
 
         This part, "mod::member1," gets highlighted correctly,
         but this part, "::member2::member3," gets assigned the Function attribute

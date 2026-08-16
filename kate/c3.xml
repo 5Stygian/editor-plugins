@@ -49,6 +49,7 @@
       <item>struct</item>
       <item>tlocal</item>
       <item>true</item>
+      <item>typedef</item>
       <item>typeid</item>
       <item>union</item>
     </list>
@@ -355,6 +356,15 @@
         <RegExpr String="(\b(?:[0-9]++(_++[0-9]++)*+)(\.(((?:[0-9]++(_++[0-9]++)*+)(?:[eE][-+]?(?:[0-9]++(_++[0-9]++)*+))?+|(?:[eE][-+]?(?:[0-9]++(_++[0-9]++)*+)))[fFdD]?\b|[fFdD]\b)?|(?:[eE][-+]?(?:[0-9]++(_++[0-9]++)*+))[fFdD]?\b|[fFdD]\b)|\.(?:[0-9]++(_++[0-9]++)*+)(?:[eE][-+]?(?:[0-9]++(_++[0-9]++)*+))?[fFdD]?\b)|\b0[xX]((?:[0-9a-fA-F]++(_++[0-9a-fA-F]++)*+)\.?+(?:[0-9a-fA-F]++(_++[0-9a-fA-F]++)*+)?+|\.(?:[0-9a-fA-F]++(_++[0-9a-fA-F]++)*+)?)[pP][-+]?(?:[0-9]++(_++[0-9]++)*+)[fFdD]?\b" attribute="Float" context="#pop"/>
       </context>
       <!-- func highlighting -->
+      <!-- TODO:
+        The return type in the following function is highlighted incorrectly:
+
+          fn mod::member1::member2::member3 do_thing() {}
+
+        This part, "mod::member1," gets highlighted correctly,
+        but this part, "::member2::member3," gets assigned the Function attribute
+        and not the Standard Suffix atrribute like it should.
+      -->
       <context attribute="Normal Text" lineEndContext="#pop" name="Function">
         <DetectSpaces/>
         <keyword attribute="Data Type" context="FindFunctionName" String="types"/>

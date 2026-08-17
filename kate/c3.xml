@@ -343,8 +343,8 @@
         <!-- numbers -->
         <RegExpr String="0[xX]" attribute="Standard Suffix" context="HexPrefix"/>
         <RegExpr String="0o" attribute="Standard Suffix" context="OctalPrefix"/>
-        <RegExpr String="[0-9]+\.[0-9]+" attribute="Float" context="FloatSuffixes"/>
-        <Int attribute="Decimal" context="IntSuffixes"/>
+        <RegExpr String="[0-9_]+\.[0-9_]+" attribute="Float" context="FloatSuffixes"/>
+        <RegExpr String="[0-9_]+" attribute="Decimal" context="IntSuffixes"/>
         <!-- strings -->
         <DetectChar attribute="String" context="DoubleQuoteString" char="&quot;"/>
         <DetectIdentifier/>
@@ -371,10 +371,10 @@
         <AnyChar String="fFdD" attribute="Standard Suffix" context="#pop"/>
       </context>
       <context name="HexPrefix" attribute="Normal Text" fallthroughContext="#pop" lineEndContext="#pop">
-        <RegExpr String="[0-9a-fA-F]+" attribute="Hex" context="pop"/>
+        <RegExpr String="[0-9a-fA-F_]+" attribute="Hex" context="pop"/>
       </context>
       <context name="OctalPrefix" attribute="Normal Text" fallthroughContext="#pop" lineEndContext="#pop">
-        <RegExpr String="[0-7]+" attribute="Octal" context="pop"/>
+        <RegExpr String="[0-7_]+" attribute="Octal" context="pop"/>
       </context>
       <!-- func highlighting -->
       <context attribute="Normal Text" lineEndContext="#pop" name="Function">

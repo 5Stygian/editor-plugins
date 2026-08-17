@@ -400,7 +400,8 @@
       </context>
       <context name="Member" attribute="Normal Text" fallthroughContext="#pop">
         <DetectSpaces attribute="Normal Text"/>
-        <DetectIdentifier attribute="Function" context="#pop"/>
+        <RegExpr String="(?&lt;=\.)[A-Za-z0-9_]+(?=\()" attribute="Function" context="#pop"/>
+        <RegExpr String="(?&lt;=\.)[A-Za-z0-9_]+" attribute="Data Type" context="#pop"/>
       </context>
       <!-- module highlighting -->
       <context name="ModuleName" attribute="Normal Text">

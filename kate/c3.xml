@@ -39,12 +39,15 @@
       <item>false</item>
       <item>fault</item>
       <item>import</item>
+      <item>in</item>
       <item>inline</item>
+      <item>inout</item>
       <item>interface</item>
       <item>macro</item>
       <item>module</item>
       <item>nextcase</item>
       <item>null</item>
+      <item>out</item>
       <item>static</item>
       <item>struct</item>
       <item>tlocal</item>
@@ -66,12 +69,13 @@
       <item>@constinit</item>
       <item>@deprecated</item>
       <item>@dynamic</item>
+      <item>@ensure</item>
       <item>@export</item>
       <item>@finalizer</item>
       <item>@format</item>
       <item>@if</item>
-      <item>@inline</item>
       <item>@init</item>
+      <item>@inline</item>
       <item>@jump</item>
       <item>@link</item>
       <item>@littleendian</item>
@@ -95,14 +99,16 @@
       <item>@optional</item>
       <item>@overlap</item>
       <item>@packed</item>
+      <item>@param</item>
       <item>@private</item>
       <item>@public</item>
       <item>@pure</item>
       <item>@reflect</item>
+      <item>@require</item>
       <item>@safeinfer</item>
       <item>@safemacro</item>
-      <item>@simd</item>
       <item>@section</item>
+      <item>@simd</item>
       <item>@tag</item>
       <item>@test</item>
       <item>@unused</item>
@@ -314,10 +320,11 @@
         <!-- comments -->
         <Detect2Chars char="/" char1="/" attribute="Comment" context="Comment"/>
         <Detect2Chars char="/" char1="*" attribute="Comment" context="MultiLineComment" beginRegion="Comment"/>
+        <Detect2Chars char="&lt;" char1="*" attribute="Comment" context="Contract" beginRegion="Contract"/>
         <DetectChar attribute="Symbol" context="#stay" char="{" beginRegion="Brace1"/>
         <DetectChar attribute="Symbol" context="#stay" char="}" endRegion="Brace1"/>
         <!-- keywords -->
-        <keyword String="fn" attribute="Keyword" context="Function"/>
+        <keyword attribute="Keyword" context="Function" String="fn"/>
         <keyword attribute="Keyword" context="#stay" String="keywords"/>
         <keyword attribute="Control Flow" context="#stay" String="controlflow"/>
         <keyword attribute="Data Type" context="#stay" String="types"/>
@@ -331,10 +338,10 @@
         <!-- user defined types -->
         <RegExpr String="[A-Z_][A-Za-z0-9_]+" attribute="Data Type"/>
         <!-- numbers -->
-        <Int attribute="Decimal" context="#stay"/>
-        <Float attribute="Float" context="#stay"/>
-        <HlCHex attribute="Hex" context="#stay"/>
+        <Int attribute="Decimal" context="IntSuffixes"/>
+        <Float attribute="Float" context="FloatSuffixes"/>
         <HlCOct attribute="Octal" context="#stay"/>
+        <HlCHex attribute="Hex" context="#stay"/>
         <!-- strings -->
         <DetectChar attribute="String" context="DoubleQuoteString" char="&quot;"/>
         <DetectIdentifier/>
@@ -354,6 +361,20 @@
       </context>
       <context name="FindFloat" attribute="Normal Text">
         <RegExpr String="(\b(?:[0-9]++(_++[0-9]++)*+)(\.(((?:[0-9]++(_++[0-9]++)*+)(?:[eE][-+]?(?:[0-9]++(_++[0-9]++)*+))?+|(?:[eE][-+]?(?:[0-9]++(_++[0-9]++)*+)))[fFdD]?\b|[fFdD]\b)?|(?:[eE][-+]?(?:[0-9]++(_++[0-9]++)*+))[fFdD]?\b|[fFdD]\b)|\.(?:[0-9]++(_++[0-9]++)*+)(?:[eE][-+]?(?:[0-9]++(_++[0-9]++)*+))?[fFdD]?\b)|\b0[xX]((?:[0-9a-fA-F]++(_++[0-9a-fA-F]++)*+)\.?+(?:[0-9a-fA-F]++(_++[0-9a-fA-F]++)*+)?+|\.(?:[0-9a-fA-F]++(_++[0-9a-fA-F]++)*+)?)[pP][-+]?(?:[0-9]++(_++[0-9]++)*+)[fFdD]?\b" attribute="Float" context="#pop"/>
+      </context>
+      <context name="IntSuffixes" attribute="Normal Text" fallthroughContext="#pop" lineEndContext="#pop">
+        <StringDetect String="UL" attribute="Standard Suffix" context="#pop" insensitive="1"/>
+        <StringDetect String="LU" attribute="Standard Suffix" context="#pop" insensitive="1"/>
+        <AnyChar String="ULul" attribute="Standard Suffix" context="#pop"/>
+      </context>
+      <context name="FloatSuffixes" attribute="Normal Text" fallthroughContext="#pop" lineEndContext="#pop">
+        <AnyChar String="dDfF" attribute="Standard Suffix" context="#pop"/>
+      </context>
+      <context name="FindHex" attribute="Hex">
+        <RegExpr String="0[xX][0-9a-fA-F]+" attribute="Normal Text" context="#pop" />
+      </context>
+      <context name="FindOctal" attribute="Octal">
+        <RegExpr String="0[oO][0-7]+" attribute="Normal Text" context="#pop" />
       </context>
       <!-- func highlighting -->
       <context attribute="Normal Text" lineEndContext="#pop" name="Function">
@@ -388,6 +409,11 @@
       <context name="ModuleMember" attribute="Normal Text">
         <RegExpr String="(?&lt;=::)[A-Za-z0-9_]+(?=\()" attribute="Function" context="#pop"/>
         <RegExpr String="(?&lt;=::)[A-Za-z0-9_]+" attribute="Data Type" context="#pop"/>
+      </context>
+      <!-- contract highlighting -->
+      <context name="Contract" attribute="Comment">
+        <DetectSpaces/>
+        <Detect2Chars char="*" char1="&gt;" attribute="Comment" context="#pop" endRegion="Contract"/>
       </context>
     </contexts>
     <itemDatas>

@@ -341,10 +341,10 @@
         <!-- user defined types -->
         <RegExpr String="[A-Z_][A-Za-z0-9_]+" attribute="Data Type"/>
         <!-- numbers -->
+        <HlCOct attribute="Octal" context="FindOctal"/>
+        <HlCHex attribute="Hex" context="#stay"/>
         <Int attribute="Decimal" context="IntSuffixes"/>
         <Float attribute="Float" context="FloatSuffixes"/>
-        <HlCOct attribute="Octal" context="#stay"/>
-        <HlCHex attribute="Hex" context="#stay"/>
         <!-- strings -->
         <DetectChar attribute="String" context="DoubleQuoteString" char="&quot;"/>
         <DetectIdentifier/>
@@ -365,19 +365,19 @@
       <context name="FindFloat" attribute="Normal Text">
         <RegExpr String="(\b(?:[0-9]++(_++[0-9]++)*+)(\.(((?:[0-9]++(_++[0-9]++)*+)(?:[eE][-+]?(?:[0-9]++(_++[0-9]++)*+))?+|(?:[eE][-+]?(?:[0-9]++(_++[0-9]++)*+)))[fFdD]?\b|[fFdD]\b)?|(?:[eE][-+]?(?:[0-9]++(_++[0-9]++)*+))[fFdD]?\b|[fFdD]\b)|\.(?:[0-9]++(_++[0-9]++)*+)(?:[eE][-+]?(?:[0-9]++(_++[0-9]++)*+))?[fFdD]?\b)|\b0[xX]((?:[0-9a-fA-F]++(_++[0-9a-fA-F]++)*+)\.?+(?:[0-9a-fA-F]++(_++[0-9a-fA-F]++)*+)?+|\.(?:[0-9a-fA-F]++(_++[0-9a-fA-F]++)*+)?)[pP][-+]?(?:[0-9]++(_++[0-9]++)*+)[fFdD]?\b" attribute="Float" context="#pop"/>
       </context>
-      <context name="IntSuffixes" attribute="Normal Text" fallthroughContext="#pop" lineEndContext="#pop">
+      <context name="IntSuffixes" attribute="Standard Suffix" fallthroughContext="#pop" lineEndContext="#pop">
         <StringDetect String="UL" attribute="Standard Suffix" context="#pop" insensitive="1"/>
         <StringDetect String="LU" attribute="Standard Suffix" context="#pop" insensitive="1"/>
         <AnyChar String="ULul" attribute="Standard Suffix" context="#pop"/>
       </context>
-      <context name="FloatSuffixes" attribute="Normal Text" fallthroughContext="#pop" lineEndContext="#pop">
+      <context name="FloatSuffixes" attribute="Standard Suffix" fallthroughContext="#pop" lineEndContext="#pop">
         <AnyChar String="dDfF" attribute="Standard Suffix" context="#pop"/>
       </context>
       <context name="FindHex" attribute="Hex">
         <RegExpr String="0[xX][0-9a-fA-F]+" attribute="Hex" context="#pop" />
       </context>
       <context name="FindOctal" attribute="Octal">
-        <RegExpr String="0[oO][0-7]+" attribute="Octal" context="#pop" />
+        <RegExpr String="0o[0-7]+" attribute="Octal" context="#pop" />
       </context>
       <!-- func highlighting -->
       <context attribute="Normal Text" lineEndContext="#pop" name="Function">
@@ -388,13 +388,12 @@
         <RegExpr String="[A-Z][A-Za-z0-9_]+" attribute="Data Type" context="#stay"/>
         <RegExpr String="(?&lt;=::)[A-Za-z0-9_]+" attribute="Data Type" context="#stay"/>
         <RegExpr String="[A-Za-z0-9_]+(?=::)" attribute="Standard Suffix" context="#stay"/>
-        <RegExpr String="::|\*|\?" attribute="Normal Text" context="#stay"/>
         <!-- END namespaces and such -->
         <IncludeRules context="FindFunctionName" includeAttrib="true"/>
       </context>
       <context attribute="Function" lineEndContext="#pop#pop" name="FindFunctionName">
         <DetectSpaces/>
-        <DetectChar char="." attribute="Normal Text" context="#stay"/>
+        <RegExpr String="::|\*|\?|\[\]|\." attribute="Normal Text" context="#stay"/>
         <AnyChar String="(&lt;" attribute="Normal Text" context="#pop#pop" lookAhead="true"/>
       </context>
       <!-- method highlighting -->

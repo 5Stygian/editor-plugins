@@ -39,15 +39,12 @@
       <item>false</item>
       <item>fault</item>
       <item>import</item>
-      <item>in</item>
       <item>inline</item>
-      <item>inout</item>
       <item>interface</item>
       <item>macro</item>
       <item>module</item>
       <item>nextcase</item>
       <item>null</item>
-      <item>out</item>
       <item>static</item>
       <item>struct</item>
       <item>tlocal</item>
@@ -119,7 +116,9 @@
       <item>@winmain</item>
     </list>
     <list name="types">
+      <item>DString</item>
       <item>String</item>
+      <item>WString</item>
       <item>ZString</item>
       <item>any</item>
       <item>bool</item>
@@ -135,6 +134,7 @@
       <item>isz</item>
       <item>long</item>
       <item>short</item>
+      <item>sz</item>
       <item>uint128</item>
       <item>uint</item>
       <item>ulong</item>
@@ -321,6 +321,7 @@
         <Detect2Chars char="/" char1="/" attribute="Comment" context="Comment"/>
         <Detect2Chars char="/" char1="*" attribute="Comment" context="MultiLineComment" beginRegion="Comment"/>
         <Detect2Chars char="&lt;" char1="*" attribute="Comment" context="Contract" beginRegion="Contract"/>
+        <Detect2Chars char="*" char1="&gt;" attribute="Comment" context="#pop" endRegion="Contract"/>
         <DetectChar attribute="Symbol" context="#stay" char="{" beginRegion="Brace1"/>
         <DetectChar attribute="Symbol" context="#stay" char="}" endRegion="Brace1"/>
         <!-- keywords -->
@@ -330,6 +331,8 @@
         <keyword attribute="Data Type" context="#stay" String="types"/>
         <keyword attribute="Preprocessor" context="#stay" String="preprocessor"/>
         <keyword attribute="Attribute" context="#stay" String="attributes"/>
+        <!-- function calls -->
+        <RegExpr String="[A-Za-z0-9_]+(?=\()" attribute="Function" context="#stay"/>
         <!-- methods -->
         <DetectChar char="." attribute="Symbol" context="Dot" lookAhead="1"/>
         <!-- module -->
@@ -371,10 +374,10 @@
         <AnyChar String="dDfF" attribute="Standard Suffix" context="#pop"/>
       </context>
       <context name="FindHex" attribute="Hex">
-        <RegExpr String="0[xX][0-9a-fA-F]+" attribute="Normal Text" context="#pop" />
+        <RegExpr String="0[xX][0-9a-fA-F]+" attribute="Hex" context="#pop" />
       </context>
       <context name="FindOctal" attribute="Octal">
-        <RegExpr String="0[oO][0-7]+" attribute="Normal Text" context="#pop" />
+        <RegExpr String="0[oO][0-7]+" attribute="Octal" context="#pop" />
       </context>
       <!-- func highlighting -->
       <context attribute="Normal Text" lineEndContext="#pop" name="Function">
@@ -382,14 +385,16 @@
         <!-- built in types -->
         <keyword attribute="Data Type" context="FindFunctionName" String="types"/>
         <!-- BEGIN namespaces and such -->
+        <RegExpr String="[A-Z][A-Za-z0-9_]+" attribute="Data Type" context="#stay"/>
         <RegExpr String="(?&lt;=::)[A-Za-z0-9_]+" attribute="Data Type" context="#stay"/>
         <RegExpr String="[A-Za-z0-9_]+(?=::)" attribute="Standard Suffix" context="#stay"/>
-        <RegExpr String="::" attribute="Normal Text" context="#stay"/>
+        <RegExpr String="::|\*|\?" attribute="Normal Text" context="#stay"/>
         <!-- END namespaces and such -->
         <IncludeRules context="FindFunctionName" includeAttrib="true"/>
       </context>
       <context attribute="Function" lineEndContext="#pop#pop" name="FindFunctionName">
         <DetectSpaces/>
+        <DetectChar char="." attribute="Normal Text" context="#stay"/>
         <AnyChar String="(&lt;" attribute="Normal Text" context="#pop#pop" lookAhead="true"/>
       </context>
       <!-- method highlighting -->
@@ -413,6 +418,8 @@
       <!-- contract highlighting -->
       <context name="Contract" attribute="Comment">
         <DetectSpaces/>
+        <!-- uncomment this if you want fancier highlighting -->
+        <!--<RegExpr String="@require|@ensure|@param" attribute="Attribute" context="#pop"/>-->
         <Detect2Chars char="*" char1="&gt;" attribute="Comment" context="#pop" endRegion="Contract"/>
       </context>
     </contexts>
@@ -447,6 +454,7 @@
     <comments>
       <comment name="singleLine" start="//" position="afterwhitespace"/>
       <comment name="multiLine" start="/*" end="*/" region="Comment"/>
+      <comment name="multiLine" start="&lt;*" end="*&gt;" region="Comment"/>
     </comments>
     <keywords casesensitive="1" additionalDeliminator="#'&quot;"/>
   </general>

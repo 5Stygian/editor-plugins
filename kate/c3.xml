@@ -341,10 +341,10 @@
         <!-- user defined types -->
         <RegExpr String="[A-Z_][A-Za-z0-9_]+" attribute="Data Type"/>
         <!-- numbers -->
-        <HlCOct attribute="Octal" context="FindOctal"/>
-        <HlCHex attribute="Hex" context="#stay"/>
+        <RegExpr String="0[xX]" attribute="Standard Suffix" context="HexPrefix"/>
+        <RegExpr String="0o" attribute="Standard Suffix" context="OctalPrefix"/>
         <Int attribute="Decimal" context="IntSuffixes"/>
-        <Float attribute="Float" context="FloatSuffixes"/>
+        <Float attribute="Float" context="#stay"/>
         <!-- strings -->
         <DetectChar attribute="String" context="DoubleQuoteString" char="&quot;"/>
         <DetectIdentifier/>
@@ -371,13 +371,15 @@
         <AnyChar String="ULul" attribute="Standard Suffix" context="#pop"/>
       </context>
       <context name="FloatSuffixes" attribute="Standard Suffix" fallthroughContext="#pop" lineEndContext="#pop">
-        <AnyChar String="dDfF" attribute="Standard Suffix" context="#pop"/>
+        <StringDetect String="f" attribute="Standard Suffix" context="#pop" insensitive="1"/>
+        <StringDetect String="d" attribute="Standard Suffix" context="#pop" insensitive="1"/>
+        <AnyChar String="fFdD" attribute="Standard Suffix" context="#pop"/>
       </context>
-      <context name="FindHex" attribute="Hex">
-        <RegExpr String="0[xX][0-9a-fA-F]+" attribute="Hex" context="#pop" />
+      <context name="HexPrefix" attribute="Normal Text" fallthroughContext="#pop" lineEndContext="#pop">
+        <RegExpr String="[0-9a-fA-F]+" attribute="Hex" context="pop"/>
       </context>
-      <context name="FindOctal" attribute="Octal">
-        <RegExpr String="0o[0-7]+" attribute="Octal" context="#pop" />
+      <context name="OctalPrefix" attribute="Normal Text" fallthroughContext="#pop" lineEndContext="#pop">
+        <RegExpr String="[0-7]+" attribute="Octal" context="pop"/>
       </context>
       <!-- func highlighting -->
       <context attribute="Normal Text" lineEndContext="#pop" name="Function">

@@ -414,8 +414,8 @@
       <!-- contract highlighting -->
       <context name="Contract" attribute="Comment">
         <DetectSpaces/>
-        <!-- uncomment this if you want fancier highlighting -->
-        <!--<RegExpr String="@require|@ensure|@param" attribute="Attribute" context="#pop"/>-->
+        <!-- change the context to "#pop" for full highlighting -->
+        <RegExpr String="@require|@ensure|@param|@return" attribute="Attribute" context="#stay"/>
         <Detect2Chars char="*" char1="&gt;" attribute="Comment" context="#pop" endRegion="Contract"/>
       </context>
     </contexts>

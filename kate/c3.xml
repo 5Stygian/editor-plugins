@@ -336,6 +336,7 @@
         <!-- methods -->
         <DetectChar char="." attribute="Symbol" context="Dot" lookAhead="1"/>
         <!-- module -->
+        <RegExpr String="(?&lt;=(module|import) )[a-z0-9_]+" attribute="Standard Suffix" context="#stay"/>
         <IncludeRules context="ModuleMember"/>
         <IncludeRules context="ModuleName"/>
         <!-- user defined types and contants -->

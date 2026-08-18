@@ -338,8 +338,8 @@
         <!-- module -->
         <IncludeRules context="ModuleMember"/>
         <IncludeRules context="ModuleName"/>
-        <!-- user defined types -->
-        <RegExpr String="[A-Z_][A-Za-z0-9_]+" attribute="Data Type"/>
+        <!-- user defined types and contants -->
+        <RegExpr String="[A-Z_]" attribute="Data Type" context="TypeOrConst"/>
         <!-- numbers -->
         <RegExpr String="0[xX]" attribute="Standard Suffix" context="HexPrefix"/>
         <RegExpr String="0o" attribute="Standard Suffix" context="OctalPrefix"/>
@@ -375,6 +375,9 @@
       </context>
       <context name="OctalPrefix" attribute="Normal Text" fallthroughContext="#pop" lineEndContext="#pop">
         <RegExpr String="[0-7_]+" attribute="Octal" context="pop"/>
+      </context>
+      <context name="TypeOrConst" attribute="Data Type" fallthroughContext="#pop" lineEndContext="#pop">
+        <RegExpr String="[A-Za-z0-9_]+" attribute="Data Type" context="#pop"/>
       </context>
       <!-- func highlighting -->
       <context attribute="Normal Text" lineEndContext="#pop" name="Function">
@@ -414,7 +417,7 @@
       <!-- contract highlighting -->
       <context name="Contract" attribute="Comment">
         <DetectSpaces/>
-        <!-- change the context to "#pop" for full highlighting -->
+        <!-- change the context to "#pop" for full highlighting. -->
         <RegExpr String="@require|@ensure|@param|@return" attribute="Attribute" context="#stay"/>
         <Detect2Chars char="*" char1="&gt;" attribute="Comment" context="#pop" endRegion="Contract"/>
       </context>

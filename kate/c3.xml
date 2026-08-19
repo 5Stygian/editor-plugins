@@ -4,6 +4,7 @@
   <highlighting>
     <list name="fn">
       <item>fn</item>
+      <item>macro</item>
     </list>
     <list name="controlflow">
       <item>break</item>
@@ -396,7 +397,7 @@
       </context>
       <context attribute="Function" lineEndContext="#pop#pop" name="FindFunctionName">
         <DetectSpaces/>
-        <RegExpr String="::|\*|\?|\[\]|\." attribute="Symbol" context="#stay"/>
+        <RegExpr String="::|\*|\?|!|\[\]|\.|@" attribute="Symbol" context="#stay"/>
         <AnyChar String="(&lt;" attribute="Normal Text" context="#pop#pop" lookAhead="true"/>
       </context>
       <!-- method highlighting -->

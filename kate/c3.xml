@@ -333,6 +333,8 @@
         <keyword attribute="Attribute" context="#stay" String="attributes"/>
         <!-- function calls -->
         <RegExpr String="[A-Za-z0-9_]+(?=\()" attribute="Function" context="#stay"/>
+        <!-- inner structs -->
+        <RegExpr String="(?&lt;=(bit)?struct )[a-z_][a-zA-Z0-9_]+" attribute="Data Type" context="#stay"/>
         <!-- methods -->
         <DetectChar char="." attribute="Symbol" context="Dot" lookAhead="1"/>
         <!-- module -->
